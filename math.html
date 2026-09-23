@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>猴哥 112 數學題練習</title>
+<style>
+:root{--ink:#172033;--muted:#667085;--line:#e4e7ec;--paper:#fff;--bg:#f4f6fa;--blue:#3859d6;--green:#16804a;--red:#c43d48;--amber:#a45c05}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Microsoft JhengHei",sans-serif}.top{padding:22px max(22px,calc((100% - 1340px)/2));background:#172033;color:#fff}.top h1{font-size:23px;margin:0 0 5px}.top p{margin:0;color:#cbd5e1}.wrap{max-width:1340px;margin:20px auto;padding:0 18px;display:grid;grid-template-columns:minmax(340px, .85fr) minmax(500px,1.15fr);gap:18px}.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:0 3px 12px #1018280a}.quiz{padding:20px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.tabs{display:flex;gap:7px}.tab,button,select{font:inherit}.tab,button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 12px;cursor:pointer;color:var(--ink)}.tab.active{background:#e9edff;border-color:#bdc8ff;color:#293fbd;font-weight:650}button:hover,.tab:hover{border-color:#8596ef}.danger{color:var(--red)}.qtitle{font-size:22px;margin:20px 0 3px}.hint{color:var(--muted);font-size:13px}.selector{display:flex;gap:8px;align-items:center;margin-top:16px}.selector select{border:1px solid var(--line);padding:9px;border-radius:8px;background:#fff}.options{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:17px 0}.opt{font-weight:700;font-size:17px;padding:13px 6px}.opt.chosen{outline:3px solid #b3c0ff}.opt.correct{background:#e8f7ee;color:var(--green);border-color:#87d5a3}.opt.wrong{background:#fff0f0;color:var(--red);border-color:#f1a7aa}.result{min-height:50px;padding:12px 14px;border-radius:9px;background:#f8fafc;color:var(--muted)}.result.ok{background:#eaf7ef;color:#146c3c}.result.no{background:#fff0f0;color:#a62d38}.topic{display:grid;grid-template-columns:1fr;gap:6px;margin-top:17px}.topic label{font-weight:650}.topic select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:white}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.source{overflow:hidden}.sourcehead{padding:14px 16px;border-bottom:1px solid var(--line)}.sourcehead strong{font-size:15px}.sourcehead small{color:var(--muted);display:block}.pdfview{height:calc(100vh - 168px);min-height:610px;overflow:auto;background:#fff}.pageimage{display:block;width:100%;height:auto}.stats{grid-column:1/-1;padding:18px 20px}.stats h2{font-size:17px;margin:0}.statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:13px 0}.stat{border:1px solid var(--line);border-radius:10px;padding:11px 13px}.stat small{display:block;color:var(--muted)}.stat b{font-size:22px}.statgrid .stat:first-child b{color:var(--red)}.chartbox{height:240px}.chartbox canvas{width:100%;height:100%}.mistakes{grid-column:1/-1;padding:18px 20px}.mistakes h2{font-size:17px;margin:0 0 11px}.mistake-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:8px}.mistake{border:1px solid var(--line);border-radius:9px;padding:10px;display:flex;align-items:center;justify-content:space-between;gap:8px}.mistake small{display:block;color:var(--muted)}.mistake button{padding:6px 9px;color:#354cc5}.empty{color:var(--muted);padding:12px;background:#f8fafc;border-radius:8px}.footer{max-width:1340px;margin:0 auto;padding:0 18px 20px;color:var(--muted);font-size:12px}@media(max-width:900px){.wrap{grid-template-columns:1fr}.source{grid-row:1}.pdfview{height:62vh;min-height:450px}.stats,.mistakes{grid-column:1}.statgrid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.options{grid-template-columns:repeat(5,1fr)}.quiz{padding:15px}}
+</style></head>
+<body><header class="top"><h1>猴哥 112 數學題練習</h1><p>看右側題本，選擇 A–E。作答後即時核對；錯題與進度會保存在這個瀏覽器。</p></header>
+<main class="wrap">
+<section class="panel quiz"><div class="row"><div class="tabs"><button class="tab active" id="allTab">全部題目</button><button class="tab" id="wrongTab">錯題重做 <span id="wrongCount">0</span></button></div><button id="prev">上一題</button><button id="next">下一題</button></div>
+<h2 class="qtitle" id="qtitle"></h2><div class="hint" id="qhint"></div>
+<div class="selector"><label for="jump">跳至題號</label><select id="jump"></select></div>
+<div class="options" id="options"></div><div class="result" id="result" aria-live="polite">請先查看題目，再選擇答案。</div>
+<div class="topic"><label for="topic">數學領域標記</label><select id="topic"><option value="">選擇領域（用於錯題統計）</option><option>統計分析／圖表</option><option>代數／方程式</option><option>幾何</option><option>數論／整數</option><option>算術／數字運算</option><option>比例／百分比／應用題</option><option>機率／計數</option></select><span class="hint">PDF 未提供領域分類，請依題目內容標記；錯題長條圖按標記統計。</span></div>
+<div class="actions"><button id="markBtn">儲存領域標記</button><button id="clearAnswer">清除此題作答</button><button id="reset" class="danger">清除所有紀錄</button></div></section>
+<section class="panel source"><div class="sourcehead"><strong>原始題目頁</strong><small>目前顯示第 <span id="pageLabel">1</span> 頁。題目頁已隱去題本中的答案標記。</small><div class="selector"><label for="page">PDF 頁碼</label><select id="page"></select><a id="openPdf" href="questions.pdf" target="_blank" rel="noopener">另開完整題本</a></div></div><div class="pdfview"><img id="pageImage" class="pageimage" alt="題本頁面" /></div></section>
+<section class="panel stats"><div class="row"><h2>錯題統計</h2><span class="hint">長條高度＝該領域錯誤作答次數</span></div><div class="statgrid"><div class="stat"><small>待重做錯題</small><b id="pending">0</b></div><div class="stat"><small>累積錯誤次數</small><b id="wrongTotal">0</b></div><div class="stat"><small>已作答題數</small><b id="answered">0</b></div><div class="stat"><small>正確率</small><b id="accuracy">0%</b></div></div><div class="chartbox"><canvas id="chart"></canvas></div></section>
+<section class="panel mistakes"><div class="row"><h2>錯題紀錄</h2><span class="hint">答對重做後會標記為已掌握，仍保留錯誤紀錄。</span></div><div id="mistakeList" class="mistake-list"></div></section>
+</main><div class="footer">紀錄儲存在此瀏覽器的 localStorage。更換裝置或清除瀏覽資料後，紀錄不會自動同步。</div>
+<script>
+const QUESTIONS=[
+  {
+    "id": 1,
+    "answer": "C",
+    "page": 1,
+    "topic": "機率／計數"
+  },
+  {
+    "id": 2,
+    "answer": "E",
+    "page": 1,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 3,
+    "answer": "A",
+    "page": 1,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 4,
+    "answer": "C",
+    "page": 1,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 5,
+    "answer": "A",
+    "page": 1,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 6,
+    "answer": "E",
+    "page": 2,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 7,
+    "answer": "A",
+    "page": 2,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 8,
+    "answer": "B",
+    "page": 2,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 9,
+    "answer": "D",
+    "page": 2,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 10,
+    "answer": "C",
+    "page": 3,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 11,
+    "answer": "D",
+    "page": 3,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 12,
+    "answer": "E",
+    "page": 3,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 13,
+    "answer": "A",
+    "page": 3,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 14,
+    "answer": "C",
+    "page": 4,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 15,
+    "answer": "A",
+    "page": 4,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 16,
+    "answer": "E",
+    "page": 4,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 17,
+    "answer": "D",
+    "page": 5,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 18,
+    "answer": "D",
+    "page": 5,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 19,
+    "answer": "B",
+    "page": 6,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 20,
+    "answer": "A",
+    "page": 6,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 21,
+    "answer": "A",
+    "page": 6,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 22,
+    "answer": "B",
+    "page": 6,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 23,
+    "answer": "A",
+    "page": 7,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 24,
+    "answer": "C",
+    "page": 7,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 25,
+    "answer": "B",
+    "page": 8,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 26,
+    "answer": "B",
+    "page": 8,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 27,
+    "answer": "E",
+    "page": 9,
+    "topic": "機率／計數"
+  },
+  {
+    "id": 28,
+    "answer": "C",
+    "page": 9,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 29,
+    "answer": "C",
+    "page": 9,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 30,
+    "answer": "D",
+    "page": 9,
+    "topic": "機率／計數"
+  },
+  {
+    "id": 31,
+    "answer": "C",
+    "page": 10,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 32,
+    "answer": "C",
+    "page": 10,
+    "topic": "機率／計數"
+  },
+  {
+    "id": 33,
+    "answer": "E",
+    "page": 10,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 34,
+    "answer": "C",
+    "page": 11,
+    "topic": "幾何"
+  },
+  {
+    "id": 35,
+    "answer": "E",
+    "page": 11,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 36,
+    "answer": "B",
+    "page": 12,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 37,
+    "answer": "B",
+    "page": 12,
+    "topic": "幾何"
+  },
+  {
+    "id": 38,
+    "answer": "A",
+    "page": 12,
+    "topic": "幾何"
+  },
+  {
+    "id": 39,
+    "answer": "D",
+    "page": 13,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 40,
+    "answer": "E",
+    "page": 13,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 41,
+    "answer": "B",
+    "page": 13,
+    "topic": "機率／計數"
+  },
+  {
+    "id": 42,
+    "answer": "D",
+    "page": 13,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 43,
+    "answer": "A",
+    "page": 14,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 44,
+    "answer": "D",
+    "page": 15,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 45,
+    "answer": "E",
+    "page": 15,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 46,
+    "answer": "D",
+    "page": 16,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 47,
+    "answer": "D",
+    "page": 16,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 48,
+    "answer": "A",
+    "page": 16,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 49,
+    "answer": "E",
+    "page": 17,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 50,
+    "answer": "C",
+    "page": 17,
+    "topic": "機率／計數"
+  },
+  {
+    "id": 51,
+    "answer": "D",
+    "page": 17,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 52,
+    "answer": "D",
+    "page": 17,
+    "topic": "幾何"
+  },
+  {
+    "id": 53,
+    "answer": "D",
+    "page": 18,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 54,
+    "answer": "D",
+    "page": 18,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 55,
+    "answer": "D",
+    "page": 18,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 56,
+    "answer": "A",
+    "page": 19,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 57,
+    "answer": "E",
+    "page": 19,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 58,
+    "answer": "D",
+    "page": 19,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 59,
+    "answer": "A",
+    "page": 20,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 60,
+    "answer": "B",
+    "page": 20,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 61,
+    "answer": "D",
+    "page": 20,
+    "topic": "機率／計數"
+  },
+  {
+    "id": 62,
+    "answer": "B",
+    "page": 20,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 63,
+    "answer": "D",
+    "page": 21,
+    "topic": "機率／計數"
+  },
+  {
+    "id": 64,
+    "answer": "D",
+    "page": 21,
+    "topic": "機率／計數"
+  },
+  {
+    "id": 65,
+    "answer": "C",
+    "page": 21,
+    "topic": "算術／數字運算"
+  },
+  {
+    "id": 66,
+    "answer": "D",
+    "page": 22,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 67,
+    "answer": "D",
+    "page": 22,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 68,
+    "answer": "D",
+    "page": 22,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 69,
+    "answer": "D",
+    "page": 23,
+    "topic": "算術／數字運算"
+  },
+  {
+    "id": 70,
+    "answer": "B",
+    "page": 23,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 71,
+    "answer": "B",
+    "page": 24,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 72,
+    "answer": "D",
+    "page": 24,
+    "topic": "算術／數字運算"
+  },
+  {
+    "id": 73,
+    "answer": "C",
+    "page": 24,
+    "topic": "機率／計數"
+  },
+  {
+    "id": 74,
+    "answer": "D",
+    "page": 24,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 75,
+    "answer": "E",
+    "page": 25,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 76,
+    "answer": "D",
+    "page": 25,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 77,
+    "answer": "D",
+    "page": 25,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 78,
+    "answer": "D",
+    "page": 26,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 79,
+    "answer": "D",
+    "page": 26,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 80,
+    "answer": "B",
+    "page": 26,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 81,
+    "answer": "A",
+    "page": 27,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 82,
+    "answer": "B",
+    "page": 27,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 83,
+    "answer": "E",
+    "page": 27,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 84,
+    "answer": "D",
+    "page": 28,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 85,
+    "answer": "C",
+    "page": 29,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 86,
+    "answer": "E",
+    "page": 29,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 87,
+    "answer": "E",
+    "page": 30,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 88,
+    "answer": "C",
+    "page": 30,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 89,
+    "answer": "B",
+    "page": 30,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 90,
+    "answer": "D",
+    "page": 31,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 91,
+    "answer": "A",
+    "page": 31,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 92,
+    "answer": "E",
+    "page": 31,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 93,
+    "answer": "E",
+    "page": 32,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 94,
+    "answer": "D",
+    "page": 32,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 95,
+    "answer": "E",
+    "page": 33,
+    "topic": "算術／數字運算"
+  },
+  {
+    "id": 96,
+    "answer": "C",
+    "page": 33,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 97,
+    "answer": "B",
+    "page": 33,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 98,
+    "answer": "A",
+    "page": 34,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 99,
+    "answer": "A",
+    "page": 34,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 100,
+    "answer": "B",
+    "page": 34,
+    "topic": "算術／數字運算"
+  },
+  {
+    "id": 101,
+    "answer": "B",
+    "page": 34,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 102,
+    "answer": "B",
+    "page": 35,
+    "topic": "幾何"
+  },
+  {
+    "id": 103,
+    "answer": "B",
+    "page": 35,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 104,
+    "answer": "C",
+    "page": 35,
+    "topic": "數論／整數"
+  },
+  {
+    "id": 105,
+    "answer": "C",
+    "page": 35,
+    "topic": "算術／數字運算"
+  },
+  {
+    "id": 106,
+    "answer": "E",
+    "page": 36,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 107,
+    "answer": "B",
+    "page": 36,
+    "topic": "統計分析／圖表"
+  },
+  {
+    "id": 108,
+    "answer": "A",
+    "page": 36,
+    "topic": "代數／方程式"
+  },
+  {
+    "id": 109,
+    "answer": "B",
+    "page": 37,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 110,
+    "answer": "E",
+    "page": 37,
+    "topic": "幾何"
+  },
+  {
+    "id": 111,
+    "answer": "D",
+    "page": 37,
+    "topic": "比例／百分比／應用題"
+  },
+  {
+    "id": 112,
+    "answer": "D",
+    "page": 38,
+    "topic": "統計分析／圖表"
+  }
+];
+const TOPICS=['統計分析／圖表','代數／方程式','幾何','數論／整數','算術／數字運算','比例／百分比／應用題','機率／計數'];
+const KEY='monkey112-progress-v1'; let data={};try{data=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch{}
+let mode='all', current=1;
+const $=id=>document.getElementById(id);const question=id=>QUESTIONS[id-1];const state=id=>{let s=data[id]||(data[id]={wrong:0,attempts:0,correct:0,topic:question(id).topic,resolved:false,last:null});if(!TOPICS.includes(s.topic))s.topic=question(id).topic;return s};
+function save(){localStorage.setItem(KEY,JSON.stringify(data)); renderStats()}
+for(let i=1;i<=112;i++)$('jump').add(new Option('第 '+i+' 題',i));for(let i=1;i<=38;i++)$('page').add(new Option('第 '+i+' 頁',i));
+function activeIds(){return mode==='wrong'?QUESTIONS.filter(q=>state(q.id).wrong>0&&!state(q.id).resolved).map(q=>q.id):QUESTIONS.map(q=>q.id)}
+function setPage(){const q=question(current);let p=Number($('page').value)||q.page;$('pageLabel').textContent=p;$('pageImage').src='pages/page-'+String(p).padStart(2,'0')+'.jpg'}
+function render(){current=Math.max(1,Math.min(112,current));$('jump').value=current;const q=question(current),s=state(current);$('qtitle').textContent=`第 ${current} 題`;const ids=activeIds();let ix=ids.indexOf(current);$('qhint').textContent=mode==='wrong'?`錯題重做 · ${Math.max(ix+1,1)} / ${ids.length} 題 · 曾錯 ${s.wrong} 次`:`共 112 題 · 曾錯 ${s.wrong} 次${s.resolved?' · 已掌握':''}`;$('topic').value=s.topic||'';
+$('options').innerHTML='';for(const letter of 'ABCDE'){let b=document.createElement('button');b.className='opt';b.textContent=letter;b.onclick=()=>answer(letter);if(s.last){if(letter===q.answer)b.classList.add('correct');if(letter===s.last&&!s.lastCorrect)b.classList.add('wrong');if(letter===s.last&&s.lastCorrect)b.classList.add('chosen')}$('options').append(b)}
+let result=$('result');result.className='result';if(s.last){const correct=s.lastCorrect;result.classList.add(correct?'ok':'no');result.innerHTML=correct?`答對了！正確答案是 <b>${q.answer}</b>。`:`答錯了。你選 <b>${s.last}</b>，正確答案是 <b>${q.answer}</b>。`+(s.resolved?' 這題已標記為掌握。':' 題目已加入錯題紀錄。')}else result.textContent='請先查看題目，再選擇答案。';$('page').value=q.page;$('page').onchange=setPage;setPage();$('wrongCount').textContent=QUESTIONS.filter(x=>state(x.id).wrong>0&&!state(x.id).resolved).length;renderStats();renderMistakes()}
+function answer(choice){let q=question(current),s=state(current);s.attempts++;s.last=choice;s.lastCorrect=choice===q.answer;if(s.lastCorrect){s.correct++;if(s.wrong>0)s.resolved=true}else{s.wrong++;s.resolved=false}save();render()}
+function renderStats(){let arr=QUESTIONS.map(q=>state(q.id)),pending=arr.filter(s=>s.wrong>0&&!s.resolved).length,wrong=arr.reduce((a,s)=>a+s.wrong,0),attempts=arr.reduce((a,s)=>a+s.attempts,0),correct=arr.reduce((a,s)=>a+s.correct,0);$('pending').textContent=pending;$('wrongTotal').textContent=wrong;$('answered').textContent=arr.filter(s=>s.attempts>0).length;$('accuracy').textContent=attempts?Math.round(correct/attempts*100)+'%':'0%';drawChart()}
+function drawChart(){const c=$('chart'),ctx=c.getContext('2d'),r=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;c.width=r.width*dpr;c.height=r.height*dpr;ctx.scale(dpr,dpr);const w=r.width,h=r.height;ctx.clearRect(0,0,w,h);const counts=TOPICS.map(t=>QUESTIONS.reduce((a,q)=>{let s=state(q.id);return a+(s.topic===t?s.wrong:0)},0));const max=Math.max(1,...counts),left=36,right=8,top=10,bottom=54,plotH=h-top-bottom,slot=(w-left-right)/TOPICS.length,bw=Math.max(12,slot*.55);ctx.font='11px system-ui';ctx.textAlign='center';counts.forEach((n,i)=>{let bh=n/max*(plotH-8),x=left+i*slot+(slot-bw)/2,y=top+plotH-bh;ctx.fillStyle=n?'#536de0':'#dce2ef';ctx.beginPath();ctx.roundRect(x,y,bw,bh,4);ctx.fill();ctx.fillStyle='#475467';ctx.fillText(String(n),x+bw/2,y-4);let label=TOPICS[i].replace('／','/').replace('資料解讀','資料').replace('方程式','方程').replace('算術','算術');let words=label.split('/');ctx.fillText(words[0],x+bw/2,h-34);if(words[1])ctx.fillText(words[1],x+bw/2,h-19)});ctx.strokeStyle='#e4e7ec';ctx.beginPath();ctx.moveTo(left,top+plotH);ctx.lineTo(w-right,top+plotH);ctx.stroke()}
+function renderMistakes(){let box=$('mistakeList'),ms=QUESTIONS.filter(q=>state(q.id).wrong>0).sort((a,b)=>Number(state(b.id).resolved)-Number(state(a.id).resolved)||a.id-b.id);if(!ms.length){box.innerHTML='<div class="empty">目前沒有錯題。答錯的題目會列在這裡。</div>';return}box.innerHTML='';ms.forEach(q=>{let s=state(q.id),el=document.createElement('div');el.className='mistake';let label=document.createElement('div');label.innerHTML=`<b>第 ${q.id} 題</b><small>${s.topic||'尚未標記領域'} · 錯 ${s.wrong} 次 · ${s.resolved?'已掌握':'待重做'}</small>`;let b=document.createElement('button');b.textContent='前往';b.onclick=()=>{mode='all';$('allTab').classList.add('active');$('wrongTab').classList.remove('active');current=q.id;render();window.scrollTo({top:0,behavior:'smooth'})};el.append(label,b);box.append(el)})}
+$('jump').onchange=e=>{current=Number(e.target.value);render()};$('allTab').onclick=()=>{mode='all';$('allTab').classList.add('active');$('wrongTab').classList.remove('active');render()};$('wrongTab').onclick=()=>{mode='wrong';$('wrongTab').classList.add('active');$('allTab').classList.remove('active');let ids=activeIds();if(ids.length){current=ids[0];render()}else{render();$('result').textContent='沒有待重做的錯題。'}};
+$('prev').onclick=()=>{let ids=activeIds(),i=ids.indexOf(current);if(i>0)current=ids[i-1];else if(mode==='all')current=Math.max(1,current-1);render()};$('next').onclick=()=>{let ids=activeIds(),i=ids.indexOf(current);if(i>=0&&i<ids.length-1)current=ids[i+1];else if(mode==='all')current=Math.min(112,current+1);render()};
+$('markBtn').onclick=()=>{state(current).topic=$('topic').value;save();render();};$('clearAnswer').onclick=()=>{let s=state(current);s.last=null;s.lastCorrect=null;save();render()};$('reset').onclick=()=>{if(confirm('確定清除所有作答與錯題紀錄？')){data={};save();render()}};window.addEventListener('resize',drawChart);render();
+</script></body></html>
